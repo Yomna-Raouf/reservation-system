@@ -1,11 +1,10 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+import { FHeader } from '@/components/FHeader'
+</script>
 
 <template>
   <div id="app">
-    <header></header>
-
-    <main>Test</main>
+    <f-header />
+    <main>test</main>
   </div>
 </template>
-
-<style scoped></style>
