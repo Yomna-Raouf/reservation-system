@@ -7,10 +7,10 @@ import type {
   AxiosRequestConfig,
 } from 'axios';
 
-const { VITE_API_URL } = import.meta.env;
+// const { VITE_API_URL, MODE } = import.meta.env;
 
 const axiosParams = {
-  baseURL: VITE_API_URL,
+  baseURL: '/api',
 };
 
 const axiosInstance = axios.create(axiosParams);

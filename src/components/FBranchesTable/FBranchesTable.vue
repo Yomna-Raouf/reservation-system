@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref, reactive } from 'vue';
 
-import type { ElCol } from 'element-ui/types/col';
 import type { Branch } from './types';
 
 import { FEditBranchForm } from '../FEditBranchForm';
@@ -18,8 +17,7 @@ const branchesData = ref([
   },
 ]);
 
-const log = (row: Branch, col: ElCol) => {
-  console.log({ row, col });
+const getSelectedRow = (row: Branch) => {
   selectedBranch.id = row.id;
   selectedBranch.name = row.name;
   isEditBranchModalOpen.value = true;
@@ -35,7 +33,7 @@ const getRowKey = (row: Branch) => {
     <el-table
       :data="branchesData"
       :row-key="getRowKey"
-      @row-click="log"
+      @row-click="getSelectedRow"
       style="width: 100%; background-color: transparent"
       max-height="250"
     >

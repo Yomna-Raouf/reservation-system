@@ -1,23 +1,40 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 
+import { apiStatus } from '@/api/constants/apiStatuses';
+import { withAsync } from '@/api/utils/withAsync';
+import { getBranchesRequest } from '@/api/getBranches';
+
 const isDialogVisible = ref(false);
 const selectedBranch = ref();
-const branches = ref([
-  {
-    value: 'Option1',
-    label: 'Option1',
-  },
-  {
-    value: 'Option2',
-    label: 'Option2',
-  },
-]);
+const getBranchesStatus = ref(apiStatus.IDLE);
+const branches = ref();
+
+const getBranches = async () => {
+  getBranchesStatus.value = apiStatus.PENDING;
+  // TODO: create branches types
+  const { response, error } = await withAsync<any>(getBranchesRequest);
+
+  console.log({ response, error });
+
+  if (error) {
+    getBranchesStatus.value = apiStatus.ERROR;
+    return;
+  }
+
+  branches.value = response?.data?.data?.map((item: any) => ({ label: item.name, value: item.id }));
+  getBranchesStatus.value = apiStatus.SUCCESS;
+};
+
+const onAddBranchesClicked = () => {
+  getBranches();
+  isDialogVisible.value = true;
+};
 </script>
 
 <template>
   <div>
-    <el-button round @click="isDialogVisible = true"> Add Branches </el-button>
+    <el-button round @click="onAddBranchesClicked"> Add Branches </el-button>
 
     <el-dialog title="Add Branches" :visible.sync="isDialogVisible">
       <el-form label-position="top" label-width="500px">
