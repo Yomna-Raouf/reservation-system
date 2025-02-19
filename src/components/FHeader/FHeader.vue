@@ -1,15 +1,13 @@
 <script setup lang="ts">
-import { Button } from 'element-ui'
-
 const log = () => {
-  console.log('clicked')
-}
+  console.log('clicked');
+};
 </script>
 
 <template>
   <header>
     <h1>Reservations</h1>
-    <Button @click="log" round>Disable Reservations</Button>
+    <el-button @click="log" type="danger" round plain>Disable Reservations</el-button>
   </header>
 </template>
 
