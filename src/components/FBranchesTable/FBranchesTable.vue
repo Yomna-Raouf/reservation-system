@@ -1,21 +1,16 @@
 <script setup lang="ts">
-import { ref, reactive } from 'vue';
+import { ref, reactive, computed } from 'vue';
+
+import { useBranchesStore } from '@/stores/branches';
 
 import type { Branch } from './types';
 
 import { FEditBranchForm } from '../FEditBranchForm';
 
+const branchesStore = useBranchesStore();
 const isEditBranchModalOpen = ref(false);
 const selectedBranch = reactive({ id: '', name: '' });
-const branchesData = ref([
-  {
-    id: '1',
-    name: 'Tom',
-    reference: 'B01',
-    tablesCount: 10,
-    duration: 30,
-  },
-]);
+const branchesData = computed(() => branchesStore.branches);
 
 const getSelectedRow = (row: Branch) => {
   selectedBranch.id = row.id;

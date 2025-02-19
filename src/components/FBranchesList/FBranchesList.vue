@@ -1,11 +1,25 @@
 <script setup lang="ts">
+import { onMounted, computed } from 'vue';
+
+import { useBranchesStore } from '@/stores/branches';
+
 import { FAddBrancehsModal } from '../FAddBrancehsModal';
 import { FBranchesTable } from '../FBranchesTable';
+
+const branchesStore = useBranchesStore();
+
+const status = computed(() => branchesStore.status);
+
+onMounted(() => {
+  branchesStore.getBranches();
+});
 </script>
 
 <template>
   <div class="brancehList">
-    <div class="brancehList_container">
+    <div v-if="['PENDING', 'IDLE'].includes(status)" class="brancehList_container">Loading ..</div>
+    <div v-else-if="status === 'ERROR'">Oooops! Something went worng.</div>
+    <div v-else class="brancehList_container">
       <div class="brancehList_header"><f-add-brancehs-modal /></div>
       <f-branches-table />
     </div>

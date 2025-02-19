@@ -11,8 +11,6 @@ const selectedBranch = ref();
 const branches = computed(() => branchesStore.addBranchList);
 
 const onAddBranchesClicked = () => {
-  branchesStore.getBranches();
-  console.log({ branches });
   isDialogVisible.value = true;
 };
 </script>
