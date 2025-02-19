@@ -8,16 +8,18 @@ defineProps({
   },
 });
 
+const slotsInitValue = [new Date(), new Date()];
+
 const form = reactive({
   tables: [],
   duration: 0,
-  Saturday: [],
-  Sunday: [],
-  Monday: [],
-  Tuesday: [],
-  Wednesday: [],
-  Thursday: [],
-  Friday: [],
+  Saturday: slotsInitValue,
+  Sunday: slotsInitValue,
+  Monday: slotsInitValue,
+  Tuesday: slotsInitValue,
+  Wednesday: slotsInitValue,
+  Thursday: slotsInitValue,
+  Friday: slotsInitValue,
 });
 const weekDays: (keyof typeof form)[] = [
   'Saturday',
@@ -73,9 +75,10 @@ const tables = ref([
             <el-time-picker
               is-range
               v-model="form[day]"
-              range-separator="To"
+              range-separator="-"
               start-placeholder="Start time"
               end-placeholder="End time"
+              arrow-control
               style="width: 100%"
             >
             </el-time-picker>
