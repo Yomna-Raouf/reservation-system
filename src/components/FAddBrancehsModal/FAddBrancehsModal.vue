@@ -1,33 +1,18 @@
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, computed } from 'vue';
 
-import { apiStatus } from '@/api/constants/apiStatuses';
-import { withAsync } from '@/api/utils/withAsync';
-import { getBranchesRequest } from '@/api/getBranches';
+import { useBranchesStore } from '@/stores/branches';
+
+const branchesStore = useBranchesStore();
 
 const isDialogVisible = ref(false);
 const selectedBranch = ref();
-const getBranchesStatus = ref(apiStatus.IDLE);
-const branches = ref();
 
-const getBranches = async () => {
-  getBranchesStatus.value = apiStatus.PENDING;
-  // TODO: create branches types
-  const { response, error } = await withAsync<any>(getBranchesRequest);
-
-  console.log({ response, error });
-
-  if (error) {
-    getBranchesStatus.value = apiStatus.ERROR;
-    return;
-  }
-
-  branches.value = response?.data?.data?.map((item: any) => ({ label: item.name, value: item.id }));
-  getBranchesStatus.value = apiStatus.SUCCESS;
-};
+const branches = computed(() => branchesStore.addBranchList);
 
 const onAddBranchesClicked = () => {
-  getBranches();
+  branchesStore.getBranches();
+  console.log({ branches });
   isDialogVisible.value = true;
 };
 </script>
