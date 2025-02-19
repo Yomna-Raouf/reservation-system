@@ -21,6 +21,7 @@ const getSelectedRow = (row: Branch) => {
 const getRowKey = (row: Branch) => {
   return row.id;
 };
+// TODO: handle pagination
 </script>
 
 <template>
