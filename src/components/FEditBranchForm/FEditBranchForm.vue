@@ -8,8 +8,6 @@ defineProps({
   },
 });
 
-const weekDays = ['Saturday', 'Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
-
 const form = reactive({
   tables: [],
   duration: 0,
@@ -21,6 +19,16 @@ const form = reactive({
   Thursday: [],
   Friday: [],
 });
+const weekDays: (keyof typeof form)[] = [
+  'Saturday',
+  'Sunday',
+  'Monday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
+  'Friday',
+];
+
 const tables = ref([
   {
     value: 'Option1',
