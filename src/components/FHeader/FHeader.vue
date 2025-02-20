@@ -1,13 +1,19 @@
 <script setup lang="ts">
-const log = () => {
-  console.log('clicked');
+import { useBranchesStore } from '@/stores/branches';
+
+const branchesStore = useBranchesStore();
+
+const toggleReservations = () => {
+  branchesStore.toggleDisableReservations();
 };
 </script>
 
 <template>
   <header>
     <h1>Reservations</h1>
-    <el-button @click="log" type="danger" round plain>Disable Reservations</el-button>
+    <el-button @click="toggleReservations" type="danger" round plain
+      >Disable Reservations</el-button
+    >
   </header>
 </template>
 

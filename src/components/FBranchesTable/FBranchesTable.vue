@@ -32,6 +32,7 @@ const getRowKey = (row: Branch) => {
       @row-click="getSelectedRow"
       style="width: 100%; background-color: transparent"
       max-height="250"
+      empty-text="No branches available for reservations"
     >
       <el-table-column fixed prop="name" label="Branch"> </el-table-column>
       <el-table-column prop="reference" label="Reference"> </el-table-column>

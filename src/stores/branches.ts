@@ -5,6 +5,7 @@ import { defineStore } from 'pinia';
 import { apiStatus } from '@/api/constants/apiStatuses';
 import { getBranchesRequest } from '@/api/getBranches';
 import { withAsync } from '@/api/utils/withAsync';
+import { disableReservationsRequest } from '@/api/disableReservations';
 
 // TODO: create branches types
 const getTablesCount = (sections: any[]) => {
@@ -20,6 +21,7 @@ export const useBranchesStore = defineStore('branches', () => {
   const branches = ref();
   const addBranchList = ref();
   const status = ref(apiStatus.IDLE);
+  const acceptsReservations = ref(true);
 
   const getBranches = async () => {
     status.value = apiStatus.PENDING;
@@ -50,5 +52,18 @@ export const useBranchesStore = defineStore('branches', () => {
     status.value = apiStatus.SUCCESS;
   };
 
-  return { getBranches, branches, addBranchList, status };
+  const toggleDisableReservations = () => {
+    acceptsReservations.value = !acceptsReservations.value;
+
+    if (!acceptsReservations.value) branches.value = [];
+  };
+
+  return {
+    getBranches,
+    branches,
+    addBranchList,
+    status,
+    toggleDisableReservations,
+    acceptsReservations,
+  };
 });
