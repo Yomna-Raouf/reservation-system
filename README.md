@@ -1,5 +1,15 @@
 # reservation-system
 
+TODO:
+
+- withAsync util causes build issues
+- define types for branches
+- forms integration and validation
+- testing
+- refactoring and optimization
+- caching api response
+- form validation & api integration
+
 This template should help get you started developing with Vue 3 in Vite.
 
 ## Recommended IDE Setup
