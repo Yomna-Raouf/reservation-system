@@ -36,14 +36,16 @@ export const useBranchesStore = defineStore('branches', () => {
       label: branch.name,
       value: branch.id,
     }));
-    branches.value = response?.data?.data?.map((branch: any) => {
-      return {
-        id: branch.id,
-        name: branch.name,
-        reference: branch.reference ?? '_',
-        tablesCount: getTablesCount(branch.sections) ?? 0,
-        duration: `${branch.reservation_duration} minutes`,
-      };
+    branches.value = response?.data?.data?.filter((branch: any) => {
+      if (branch.accepts_reservations)
+        return {
+          id: branch.id,
+          name: branch.name,
+          reference: branch.reference ?? '_',
+          tablesCount: getTablesCount(branch.sections) ?? 0,
+          duration: `${branch.reservation_duration} minutes`,
+        };
+      else return;
     });
     status.value = apiStatus.SUCCESS;
   };
