@@ -13,6 +13,11 @@ const branches = computed(() => branchesStore.addBranchList);
 const onAddBranchesClicked = () => {
   isDialogVisible.value = true;
 };
+
+const enableBranchReservations = () => {
+  branchesStore.enableBranchReservation(selectedBranch.value);
+  isDialogVisible.value = false;
+};
 </script>
 
 <template>
@@ -23,7 +28,6 @@ const onAddBranchesClicked = () => {
       <el-form label-position="top" label-width="500px">
         <el-form-item label="Branches" size="medium">
           <el-select
-            multiple
             v-model="selectedBranch"
             placeholder="Please select a branch"
             size="large"
@@ -41,7 +45,7 @@ const onAddBranchesClicked = () => {
       </el-form>
       <span slot="footer" class="dialog-footer">
         <el-button @click="isDialogVisible = false" round>Cancel</el-button>
-        <el-button type="primary" @click="isDialogVisible = false" round>Save</el-button>
+        <el-button type="primary" @click="enableBranchReservations" round>Save</el-button>
       </span>
     </el-dialog>
   </div>

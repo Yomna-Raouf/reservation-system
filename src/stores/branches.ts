@@ -5,16 +5,17 @@ import { defineStore } from 'pinia';
 import { apiStatus } from '@/api/constants/apiStatuses';
 import { getBranchesRequest } from '@/api/getBranches';
 import { withAsync } from '@/api/utils/withAsync';
-import { disableReservationsRequest } from '@/api/disableReservations';
+import { enableReservationsRequest } from '@/api/enableReservations';
 
 // TODO: create branches types
+// TODO: separate methods into files (cleanup)
 const getTablesCount = (sections: any[]) => {
   return sections
-    .map(
+    ?.map(
       (section: any) =>
         section.tables.filter((table: any) => table.accepts_reservations === true).length
     )
-    .reduce((partialSum, a) => partialSum + a, 0);
+    ?.reduce((partialSum, a) => partialSum + a, 0);
 };
 
 export const useBranchesStore = defineStore('branches', () => {
@@ -28,12 +29,11 @@ export const useBranchesStore = defineStore('branches', () => {
 
     const { response, error } = await withAsync<any>(getBranchesRequest);
 
-    console.log({ response, error });
-
     if (error) {
       status.value = apiStatus.ERROR;
       return;
     }
+    // TODO: only list branches with accepts_reservations === false
     addBranchList.value = response?.data?.data?.map((branch: any) => ({
       label: branch.name,
       value: branch.id,
@@ -52,7 +52,26 @@ export const useBranchesStore = defineStore('branches', () => {
     status.value = apiStatus.SUCCESS;
   };
 
+  const enableBranchReservation = async (id: string) => {
+    const {
+      data: { data },
+    } = await enableReservationsRequest(id);
+
+    if (Object.keys(data).length)
+      branches.value = [
+        ...branches.value,
+        {
+          id: data?.id,
+          name: data?.name,
+          reference: data?.reference ?? '_',
+          tablesCount: getTablesCount(data.sections) ?? 0,
+          duration: `${data?.reservation_duration} minutes`,
+        },
+      ];
+  };
+
   const toggleDisableReservations = () => {
+    // API ?
     acceptsReservations.value = !acceptsReservations.value;
 
     if (!acceptsReservations.value) branches.value = [];
@@ -65,5 +84,6 @@ export const useBranchesStore = defineStore('branches', () => {
     status,
     toggleDisableReservations,
     acceptsReservations,
+    enableBranchReservation,
   };
 });
